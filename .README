@@ -1,0 +1,1 @@
+Tailwind compiler `npx tailwindcss -i src/views/css/main.css -o ./src/views/css/output.css --watch`
