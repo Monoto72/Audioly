@@ -1,6 +1,6 @@
 <html>
 <?php 
-    $page_title = "Auidoly | Store";
+    $pageTitle = "Auidoly | Store";
 
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';
@@ -20,9 +20,9 @@
         <?php include_once 'views/components/navbar.php'; ?>
     </navbar>
     <?php
-        if (count($params) !== 2) {
+        if (count($params) < 2) {
             echo "<header class='h-1/3 bg-no-repeat bg-center bg-contain bg-gray-700 hidden md:block'
-                    style='background-image: url(../media/". $params['category'] .".png)'>
+                    style='background-image: url(/media/". $params['category'] .".png)'>
                     <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center'>
                         <h1 class='text-5xl font-bold text-white font-mono mr-60'>". strtoupper($params['category']) ."</h1>
                     </div>
@@ -49,7 +49,6 @@
                         echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl'>
                                 <img src='". $item['image_url'] ."' class='w-60 h-40 mx-auto'></img>
                                 <h1 class='text-xl font-bold mt-2'>". $item['name'] ."</h1>
-                                <p class='text-sm font-normal text-gray-600 mb-7 hidden md:block'>". $item['description'] ."</p>
                                 <hr class='mb-4'>
                                 <h2 class='text-xs font-bold mt-0 pb-4 md:pb-" . $cssBottomPadding[$index] . " my-auto'>£". $item['price'] ."</h2>
                             </a>";
@@ -57,99 +56,150 @@
 
                     echo "</main>";
                     echo "<div class=''>
-                            <a href='store.php?category=". $params['category'] ."&all=true' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>View More</a>
+                            <a href='store.php?category=". $params['category'] ."&all=true&page=1' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>View More</a>
                         </div>";
 
-                } else if ($params['all'] && count($params) === 2) {
+                } else if ($params['all'] && $params['page'] && count($params) === 3 ) {
                     echo "<header class='overflow-x-auto relative shadow-md sm:rounded-lg w-2/3 mx-auto'>
                         <table class='w-full text-sm text-gray-500 dark:text-gray-400 mt-6 table-auto'>
                             <thead class='text-xs text-gray-700 uppercase dark:text-gray-400 text-center'>
                                 <tr>
-                                    <th scope='col' class='py-3 px-6 bg-gray-50 dark:bg-gray-800'>
+                                    <th scope='col' class='py-3 px-6 bg-gray-50 dark:-800'>
                                         Product Image
                                     </th>
-                                    <th scope='col' class='py-3 px-6 bg-gray-50 dark:bg-gray-800'>
+                                    <th scope='col' class='py-3 px-6 bg-gray-50 dark:-800'>
                                         Product name
                                     </th>
                                     <th scope='col' class='py-3 px-6'>
                                         Category
                                     </th>
-                                    <th scope='col' class'py-3 px-6 bg-gray-50 dark:bg-gray-800'>
+                                    <th scope='col' class'py-3 px-6 bg-gray-50 dark:-800'>
                                         Price
                                     </th>
                                     <th scope='col' class='py-3 px-6'>
                                         
                                     </th>
+                                    <th scope='col' class='py-3 px-2'>
+                                        
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody>";
+                        <tbody>";
 
-                    //$allItems = getAllItems($conn, $params['category']);
+                    $pageAmount = 5;
+                    $offset = ($params['page'] - 1) * $pageAmount;
 
-                    //if (count($allItems) === 0) header("location: index.php");
+                    $paginatedItems = getCategoryPagination($conn, $params['category'], $offset, $offset+$pageAmount);
+                    if (count($paginatedItems) === 0) header("location: index.php");
 
-                    for ($index = 0; $index < 7; $index++) {
+                    for ($index = 0; $index < count($paginatedItems); $index++) {
+                        $item = $paginatedItems[$index];
                         echo "<tr class='border-b border-gray-200 dark:border-gray-700 text-center'>
-                                <th scope='row' class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800'>
-                                    <img class='cursor-pointer hover:shadow-md rounded-full mx-auto' src='../media/categories/". $params['category'] . "/". $params['category']."-". $index+1 .".jpg' style='width:64px; height:64px'></img>
+                                <th scope='row' class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
+                                    <img class='cursor-pointer hover:shadow-md rounded-full mx-auto' src='". $item['image_url'] ."' style='width:64px; height:64px'></img>
                                 </th>
-                                <th class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800'>
-                                    Apple MacBook Pro 17
+                                <th class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
+                                    ". $item['name'] ."
                                 </th>
                                 <td class='py-4 px-6'>
-                                    Guitar
+                                    ". $params['category'] ."
                                 </td>
-                                <td class='py-4 px-6 bg-gray-50 dark:bg-gray-800'>
-                                    $2999
+                                <td class='py-4 px-6 bg-gray-50 dark:-800'>
+                                    £". $item['price'] ."
                                 </td>
                                 <td class='py-4 px-6'>
-                                    <a href='product.php?category=". $params['category'] ."&item=". $params['category']."-". $index+1 ."' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>View</a>
+                                    <a href='product.php?category=". $params['category'] ."&item=". $item['slug'] ."' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>View</a>
+                                </td>
+                                <td class='py-4 px-2'>
+                                    <button value='". $item['slug'] ."' class='bg-green-600 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-green-500 inline-block align-middle cursor-pointer'>Buy Now</button>
                                 </td>
                             </tr>";
                     }
 
                     echo "</tbody></table>";
-                    echo "</main></div>";
+                    echo "</div>";
 
-                    echo "<div class='flex justify-center space-x-4 mt-4'>
-                            <a href='#' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Back</a>
-                            <a href='#' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Next</a>
-                        </div>";
+                    echo "<div class='flex justify-center space-x-4 mt-4'>";
+                    if ($params['page'] > 1) echo "<a href='store.php?category=". $params['category'] ."&all=true&page=". $params['page'] - 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Back</a>";
+                    if (count($paginatedItems) === 5) echo "<a href='store.php?category=". $params['category'] ."&all=true&page=". $params['page'] + 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Next</a>";
+                    echo "</div>";
                 }
             ?>
 
-    <modal class="overlay hidden">
+    <modal class="imageOverlay hidden">
         <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
             <img src='' class='w-1/3 h-1/2 mx-auto rounded-lg'></img>
-            <button class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Hide Image</button>
-        </div>`
+            <button class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Hide Image</button>
+        </div>
+    </modal>
+
+    <modal class="checkout hidden">
+        <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
+            <div class="bg-white w-1/4 items-center rounded-lg flex flex-col py-4 px-4">
+                <h1 class="w-full text-gray-800 font-bold text-2xl mb-1 text-center">Purchase Product</h1>
+                <form action="includes/basket-inc.php" method="post" class="w-1/2 h-full">
+                    <input type="hidden" id="slug" name="slug" value=""/>
+                    <input type="number" name="quantity" id="quantity" class="py-2 my-2 border-2 border-slate-400 rounded-md text-center w-full" value="1"/>
+                    <button submit="submit" name="submit" value="continue" class='w-full mb-2 bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Add to cart</button>
+                    <button submit="submit" name="submit" value="checkout" class='w-full bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Continue to checkout</button>
+                </form>
+            </div>
+            <button class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
+        </div>
     </modal>
 </body>
 <script>
     const storeHTML = document.querySelector('html');
     const storeBody = document.querySelector('body');
-    const modal = document.querySelector('modal');
+    const imageModal = document.querySelector('.imageOverlay');
 
     let imageOverlay = false;
 
-    const storeImages = document.querySelectorAll('img').forEach(img => {
+    const storeImages = document.querySelectorAll('table img').forEach(img => {
         img.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex');
 
             imageOverlay = true;
 
             storeBody.classList.add('overflow-y-hidden');
 
-            modal.querySelector('img').src = img.src;
+            imageModal.querySelector('img').src = img.src;
         });
     });
 
-    const storeImageButton = modal.querySelector('button').addEventListener('click', () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+    const storeImageButton = imageModal.querySelector('button').addEventListener('click', () => {
+        imageModal.classList.add('hidden');
+        imageModal.classList.remove('flex');
 
         imageOverlay = false;
+
+        storeBody.classList.remove('overflow-y-hidden');
+    });
+
+    const checkoutModal = document.querySelector('.checkout');
+
+    let checkoutOverlay = false;
+
+    const checkoutButtons = document.querySelectorAll('table button').forEach(button => {
+        button.addEventListener('click', () => {
+            checkoutModal.classList.remove('hidden');
+            checkoutModal.classList.add('flex');
+
+            checkoutOverlay = true;
+
+            storeBody.classList.add('overflow-y-hidden');
+
+            checkoutModal.querySelector('#slug').value = button.value;
+        });
+    });
+
+    const checkoutButton = checkoutModal.querySelector('.checkout-close').addEventListener('click', () => {
+        console.log('close');
+        checkoutModal.classList.add('hidden');
+        checkoutModal.classList.remove('flex');
+
+        checkoutOverlay = false;
 
         storeBody.classList.remove('overflow-y-hidden');
     });

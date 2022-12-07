@@ -1,6 +1,6 @@
 <html>
     <?php 
-    $page_title = "Auidoly | Store";
+    $pageTitle = "Auidoly | Store";
 
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';
@@ -12,7 +12,7 @@
         <?php include_once 'views/components/navbar.php'; ?>
         </navbar>
         <div class="text-center bg-gray-50 text-gray-800 py-4 px-2 h-screen">
-                <?php
+            <?php
                 if (strpos($_SERVER['REQUEST_URI'], "item") !== false) {
                     $url_components = parse_url($_SERVER['REQUEST_URI']);
                     parse_str($url_components['query'], $params);
@@ -39,16 +39,16 @@
                         <div class="flex flex-col items-center justify-items-center w-1/4">
                             <p class="text-xl font-bold text-slate-400">£'. $item['price'] .'</p>
                             <p class="text-xl font-bold text-black mb-4">★★★★☆</p>
-                            <form class="flex flex-col">
+                            <form action="includes/basket-inc.php" method="post" class="flex flex-col">
+                                <input type="hidden" id="slug" name="slug" value="'. $item['slug'] .'"/>
                                 <input type="number" name="quantity" id="quantity" class="py-2 px-4 border-2 border-slate-400 rounded-md text-center" value="1">
                                 <br>
-                                <button type="submit" class=" bg-slate-400 text-white font-bold py-2 px-4 rounded">Add to cart</button>
+                                <button submit="submit" name="submit" value="checkout" class=" bg-slate-400 text-white font-bold py-2 px-4 rounded">Add to cart</button>
                             </form>
                         </div>
                     </div>';
                 }
-                ?>
-
+            ?>
         </div>
     </body>
 </html>

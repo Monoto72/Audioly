@@ -1,6 +1,6 @@
 <html>
     <?php 
-    $page_title = "Auidoly | Home";
+    $pageTitle = "Auidoly | Home";
 
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';

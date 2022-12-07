@@ -24,7 +24,7 @@
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
             </div>
-            <ul class="dropdown-menu absolute hidden text-gray-700 pt-2 w-1/12">
+            <ul class="dropdown-menu absolute hidden text-gray-700 pt-2 w-3/12 md:w-1/12">
                 <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                         href="store.php?category=guitar">Guitar</a></li>
                 <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
@@ -45,16 +45,18 @@
         </div>
         <!-- This is an example component -->
         <div class="relative mx-auto text-gray-600 lg:block hidden">
-            <input class="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
-                type="search" name="search" placeholder="Search">
-            <button type="submit" class="absolute right-0 top-0 mt-3 mr-2">
-                <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                    id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966"
-                    style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
-                    <path
-                        d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                </svg>
-            </button>
+            <form method="post" action="includes/search-inc.php">
+                <input class="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
+                    type="search" name="search" placeholder="Search">
+                <button type="submit" class="absolute right-0 top-0 mt-3 mr-2">
+                    <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966"
+                        style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
+                        <path
+                            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                    </svg>
+                </button>
+            </form>
         </div>
         <div class="flex">
             <?php
@@ -65,7 +67,7 @@
                     </div>
                     <ul class="dropdown-profile-menu absolute hidden text-gray-700 pt-2 w-1/2 md:w-1/12 mt-10 right-90 md:right-10">
                         <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                href="#">View Profile</a></li>
+                                href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>
                         <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                                 href="#">Settings</a></li>
                         <li class=""><a class="text-black bg-red-500 hover:bg-red-700 py-2 px-4 block whitespace-no-wrap"
@@ -99,8 +101,8 @@
                     </script>';
             } else {
                 echo '<a href="login.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
-                Login
-            </a>';
+                        Login
+                    </a>';
             }
             ?>
         </div>

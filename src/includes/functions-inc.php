@@ -219,10 +219,51 @@ function loginUser($conn, $email, $password) {
         $_SESSION['email'] = $userData['email'];
         $_SESSION['adminLevel'] = $userData['admin_level'];
 
+        if (isset($_SESSION['billingAddress']) === false) {
+            $_SESSION['billingAddress']['address'] = $userData['address'];
+            $_SESSION['billingAddress']['city'] = $userData['city'];
+            $_SESSION['billingAddress']['postCode'] = $userData['post_code'];
+            $_SESSION['billingAddress']['country'] = $userData['country'];
+        }
+
         header("location: ../index.php");
 
         exit();
     }
+}
+
+function emptyBillingAddress($address, $city, $postCode, $country) {
+    $result = false;
+
+    if (empty($address) || empty($city) || empty($postCode) || empty($country)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function addBillingAddress($conn, $address, $city, $postCode, $country) {
+    $sql = "UPDATE users SET address = ?, city = ?, post_code = ?, country = ? WHERE id = ?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../billingAddress.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssssi", $address, $city, $postCode, $country, $_SESSION['userId']);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    $_SESSION['billingAddress']['address'] = $address;
+    $_SESSION['billingAddress']['city'] = $city;
+    $_SESSION['billingAddress']['postCode'] = $postCode;
+    $_SESSION['billingAddress']['country'] = $country;
+
+    header("location: ../billingAddress.php?error=none");
+    exit();
 }
 
 /**
@@ -264,7 +305,123 @@ function getTopFive($conn, $type) {
  * 
  **/
 
-function getProduct($conn, $id) {
+function getProduct($conn, $slug) {
+    $sql = "SELECT * FROM store_items WHERE slug = ?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $slug);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+/**
+ * Gets an amount of products from database
+ * 
+ * @param object $conn - the database connection
+ * @param string $type - the product type
+ * @param int $i - the start point
+ * @param int $j - the end point
+ * @return array $row - the product data
+ * 
+ **/
+
+function getCategoryPagination($conn, $type, $i, $j) {
+    $sql = "SELECT * FROM store_items WHERE type = ? ORDER BY id LIMIT ?,?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "sii", $type, $i, $j);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        $entries[] = $row;
+    }
+
+    return $entries;
+}
+
+/**
+ * Gets an amount of products from database based on a search query
+ * 
+ * @param object $conn - the database connection
+ * @param string $query - the product type
+ * @param int $i - the start point
+ * @param int $j - the end point
+ * @return array $row - the product data
+ * 
+ **/
+
+function getSearchPagination($conn, $query, $i, $j) {
+    $sql = "SELECT * FROM store_items WHERE name LIKE ? OR description LIKE ? OR type LIKE ? ORDER BY id LIMIT ?,?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    $search = "%" . $query . "%";
+
+    mysqli_stmt_bind_param($stmt, "sssii", $search, $search, $search, $i, $j);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        $entries[] = $row;
+    }
+
+    return $entries;
+}
+
+function emptySearch($search) {
+    $result = false;
+
+    if (empty($search)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function emptyInputAddToCart($quantity) {
+    $result = false;
+
+    if (empty($quantity)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function productExists($conn, $id) {
     $sql = "SELECT * FROM store_items WHERE slug = ?;";
     $stmt = mysqli_stmt_init($conn);
 
@@ -279,13 +436,39 @@ function getProduct($conn, $id) {
     $resultData = mysqli_stmt_get_result($stmt);
 
     if ($row = mysqli_fetch_assoc($resultData)) {
-        return $row;
+        return true;
     } else {
-        $result = false;
-        return $result;
+        return false;
     }
 
     mysqli_stmt_close($stmt);
+}
+
+
+
+function addToCart($conn, $slug, $quantity) {
+    $cartItem = getProduct($conn, $slug);
+
+    if (isset($_SESSION['userId'])) {
+        $sql = "INSERT INTO cart (user_id, item_id, amount) VALUES (?, ?, ?);";
+        $stmt = mysqli_stmt_init($conn);
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location: ../index.php?error=statementFailed");
+            exit();
+        }
+
+        mysqli_stmt_bind_param($stmt, "iii", $_SESSION['userId'], $cartItem['id'], $quantity);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+
+    if (isset($_SESSION['cart']) === false) {
+        $_SESSION['cart'] = array();
+    }
+
+    $cartItem['quantity'] = $quantity;
+    array_push($_SESSION['cart'], $cartItem);
 }
 
 /**
