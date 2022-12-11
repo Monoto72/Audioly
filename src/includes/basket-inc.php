@@ -11,13 +11,22 @@
         if (emptyInputAddToCart($quantity) !== false) {
             header("location: ../index.php?error=emptyInput");  
             exit();
-        } else if (productExists($conn, $slug) === false) {
+        } else if (productExistsSlug($conn, $slug) === false) {
             header("location: ../index.php?error=productDoesNotExist");
             exit();
         } else {
-            addToCart($conn, $slug, $quantity);
-            if ($type == "continue") header("location: ../checkout.php");
-            if ($type == "checkout") header("location: ../checkout.php");
+            if (isset($_SESSION['userId'])) {
+                $duplicates = addProductDuplicate($conn, $slug, $quantity);
+
+                if ($duplicates === false) {
+                    addToCart($conn, $slug, $quantity);
+                }
+            } else {
+                addToCart($conn, $slug, $quantity);
+            }
+            if ($type == "continue") header("location: ../index.php");
+            if ($type == "product") header("location: ../index.php");
+            if ($type == "checkout") header("location: ../cart.php");
             exit();
         }
     }

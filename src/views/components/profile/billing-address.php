@@ -23,6 +23,6 @@
                 class="w-2/3 block bg-green-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">
                 Submit </button>
         </form>
-        <a href="profile.php?id=<?php echo $_SESSION['userId'] ?>" class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</a>
+        <a href="profile.php?id=<?php echo $_SESSION['userId'] ?>" class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Close</a>
     </div>
 </modal>

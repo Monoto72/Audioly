@@ -45,13 +45,15 @@
                     
                     for ($index = 0; $index < count($topFiveItems); $index++) {
                         $item = $topFiveItems[$index];
+                        if ($item['name'] != "deleted") {
 
-                        echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl'>
-                                <img src='". $item['image_url'] ."' class='w-60 h-40 mx-auto'></img>
-                                <h1 class='text-xl font-bold mt-2'>". $item['name'] ."</h1>
-                                <hr class='mb-4'>
-                                <h2 class='text-xs font-bold mt-0 pb-4 md:pb-" . $cssBottomPadding[$index] . " my-auto'>£". $item['price'] ."</h2>
-                            </a>";
+                            echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl'>
+                                    <img src='". $item['image_url'] ."' class='w-60 h-40 mx-auto'></img>
+                                    <h1 class='text-xl font-bold mt-2'>". $item['name'] ."</h1>
+                                    <hr class='mb-4'>
+                                    <h2 class='text-xs font-bold mt-0 pb-4 md:pb-" . $cssBottomPadding[$index] . " my-auto'>£". $item['price'] ."</h2>
+                                </a>";
+                        }
                     }
 
                     echo "</main>";
@@ -60,7 +62,7 @@
                         </div>";
 
                 } else if ($params['all'] && $params['page'] && count($params) === 3 ) {
-                    echo "<header class='overflow-x-auto relative shadow-md sm:rounded-lg w-2/3 mx-auto'>
+                    echo "<div class='overflow-x-auto relative shadow-md sm:rounded-lg w-2/3 mx-auto'>
                         <table class='w-full text-sm text-gray-500 dark:text-gray-400 mt-6 table-auto'>
                             <thead class='text-xs text-gray-700 uppercase dark:text-gray-400 text-center'>
                                 <tr>
@@ -94,26 +96,28 @@
 
                     for ($index = 0; $index < count($paginatedItems); $index++) {
                         $item = $paginatedItems[$index];
-                        echo "<tr class='border-b border-gray-200 dark:border-gray-700 text-center'>
-                                <th scope='row' class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
-                                    <img class='cursor-pointer hover:shadow-md rounded-full mx-auto' src='". $item['image_url'] ."' style='width:64px; height:64px'></img>
-                                </th>
-                                <th class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
-                                    ". $item['name'] ."
-                                </th>
-                                <td class='py-4 px-6'>
-                                    ". $params['category'] ."
-                                </td>
-                                <td class='py-4 px-6 bg-gray-50 dark:-800'>
-                                    £". $item['price'] ."
-                                </td>
-                                <td class='py-4 px-6'>
-                                    <a href='product.php?category=". $params['category'] ."&item=". $item['slug'] ."' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>View</a>
-                                </td>
-                                <td class='py-4 px-2'>
-                                    <button value='". $item['slug'] ."' class='bg-green-600 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-green-500 inline-block align-middle cursor-pointer'>Buy Now</button>
-                                </td>
-                            </tr>";
+                        if ($item['name'] != "deleted") {
+                            echo "<tr class='border-b border-gray-200 dark:border-gray-700 text-center'>
+                                    <th scope='row' class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
+                                        <img class='cursor-pointer hover:shadow-md rounded-full mx-auto' src='". $item['image_url'] ."' style='width:64px; height:64px'></img>
+                                    </th>
+                                    <th class='py-4 px-6 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:-800'>
+                                        ". $item['name'] ."
+                                    </th>
+                                    <td class='py-4 px-6'>
+                                        ". $params['category'] ."
+                                    </td>
+                                    <td class='py-4 px-6 bg-gray-50 dark:-800'>
+                                        £". $item['price'] ."
+                                    </td>
+                                    <td class='py-4 px-6'>
+                                        <a href='product.php?category=". $params['category'] ."&item=". $item['slug'] ."' class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>View</a>
+                                    </td>
+                                    <td class='py-4 px-2'>
+                                        <button value='". $item['slug'] ."' class='bg-green-600 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-green-500 inline-block align-middle cursor-pointer'>Buy Now</button>
+                                    </td>
+                                </tr>";
+                        }
                     }
 
                     echo "</tbody></table>";
@@ -148,61 +152,5 @@
         </div>
     </modal>
 </body>
-<script>
-    const storeHTML = document.querySelector('html');
-    const storeBody = document.querySelector('body');
-    const imageModal = document.querySelector('.imageOverlay');
-
-    let imageOverlay = false;
-
-    const storeImages = document.querySelectorAll('table img').forEach(img => {
-        img.addEventListener('click', () => {
-            imageModal.classList.remove('hidden');
-            imageModal.classList.add('flex');
-
-            imageOverlay = true;
-
-            storeBody.classList.add('overflow-y-hidden');
-
-            imageModal.querySelector('img').src = img.src;
-        });
-    });
-
-    const storeImageButton = imageModal.querySelector('button').addEventListener('click', () => {
-        imageModal.classList.add('hidden');
-        imageModal.classList.remove('flex');
-
-        imageOverlay = false;
-
-        storeBody.classList.remove('overflow-y-hidden');
-    });
-
-    const checkoutModal = document.querySelector('.checkout');
-
-    let checkoutOverlay = false;
-
-    const checkoutButtons = document.querySelectorAll('table button').forEach(button => {
-        button.addEventListener('click', () => {
-            checkoutModal.classList.remove('hidden');
-            checkoutModal.classList.add('flex');
-
-            checkoutOverlay = true;
-
-            storeBody.classList.add('overflow-y-hidden');
-
-            checkoutModal.querySelector('#slug').value = button.value;
-        });
-    });
-
-    const checkoutButton = checkoutModal.querySelector('.checkout-close').addEventListener('click', () => {
-        console.log('close');
-        checkoutModal.classList.add('hidden');
-        checkoutModal.classList.remove('flex');
-
-        checkoutOverlay = false;
-
-        storeBody.classList.remove('overflow-y-hidden');
-    });
-
-</script>
+<script src="views/js/store.js"></script>
 </html>

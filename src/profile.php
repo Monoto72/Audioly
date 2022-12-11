@@ -17,7 +17,7 @@
             include_once 'views/components/head.php'; 
 
             echo '<body class="h-screen overflow-x-hidden overflow-y-auto md:overflow-y-hidden">';
-            echo '<navbar>';
+            echo '<navbar class="sticky top-0 z-50">';
                 include_once 'views/components/navbar.php';
             echo '</navbar>';
 

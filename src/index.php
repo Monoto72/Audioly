@@ -8,7 +8,7 @@
     include_once 'views/components/head.php'; 
     ?>
     <body class="overflow-y-hidden">
-        <navbar>
+        <navbar class="sticky top-0 z-50">
         <?php include_once 'views/components/navbar.php'; ?>
         </navbar>
     </body>

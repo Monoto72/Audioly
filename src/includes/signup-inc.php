@@ -5,13 +5,24 @@ if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password1'];
-    $verifyPassword = $_POST['password2'];
+    $adminLevel = $_POST['admin-level'];
+
+    $madeOnPanel;
+
+    if (isset($_POST['admin-level'])) {
+        $verifyPassword = $_POST['password1'];
+        $madeOnPanel = true;
+    } else {
+        $verifyPassword = $_POST['password2'];
+        $madeOnPanel = false;
+    }
 
     require_once 'dbh-inc.php';
     require_once 'functions-inc.php';
 
     if (emptyInputSignup($fullName, $username, $email, $password, $verifyPassword) !== false) {
-        header("location: ../signup.php?error=emptyInput");
+        echo "empty input";
+        //header("location: ../signup.php?error=emptyInput");
         exit();
     } else if (invalidEmail($email) !== false) {
         header("location: ../signup.php?error=invalidEmail");
@@ -23,8 +34,14 @@ if (isset($_POST['submit'])) {
         header("location: ../signup.php?error=usernameTaken");
         exit();
     } else {
-        createUser($conn, $fullName, $username, $email, $password);
-        header("location: ../index.php");
+        if ($madeOnPanel) {
+            createUser($conn, $fullName, $username, $email, $password, $adminLevel, true);
+            header("location: ../admin.php?content=users&success=userCreated");
+        } else {
+            createUser($conn, $fullName, $username, $email, $password);
+            header("location: ../index.php");
+        }
+        exit();
     }
 }
 

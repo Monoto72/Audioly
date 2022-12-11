@@ -12,17 +12,22 @@
                     placeholder="Username" required/>
             </div>
             <div class="w-2/3 flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
-                <input id="bordered-checkbox-1" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4">
-                <label for="bordered-checkbox-1" class="ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Admin | <span class="text-gray-600">This will determine if the user is allowed to view the panel.</span></label>
+                        <input class="pl-2 outline-none border-none" type="text" name="email" id="email"
+                            placeholder="Email Address" required/>
+                    </div>
+            <div class="w-2/3 flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                <input type="hidden" value="0" name="admin-level" id="admin-level">
+                <input id="admin-level" type="checkbox" value="1" name="admin-level" class="w-4 h-4">
+                <label for="admin-level" class="ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">Admin | <span class="text-gray-600">This will determine if the user is allowed to view the panel.</span></label>
             </div>
             <div class="w-2/3 flex items-center border-2 py-2 px-3 rounded-2xl">
-                <input class="pl-2 outline-none border-none w-full" type="password" name="password" id="password"
+                <input class="pl-2 outline-none border-none w-full" type="password" name="password1" id="password1"
                     autocomplete="on" placeholder="Password" required/>
             </div>
             <button type="submit" name="submit" id="submit"
                 class="w-2/3 block bg-green-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Make
                 Account</button>
         </form>
-        <a href="admin.php?content=users" class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</a>
+        <a href="admin.php?content=users" class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Close</a>
     </div>
 </modal>

@@ -36,6 +36,7 @@
             </div>
             <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
                 <form class="bg-white w-2/3" method="post" action="includes/signup-inc.php">
+                    <input type="hidden" id="admin-level" name="admin-level" value="0"/>
                     <h1 class="text-gray-800 font-bold text-2xl mb-1">Welcome!</h1>
                     <p class="text-sm font-normal text-gray-600 mb-7">Want to save checkouts and see orders?</p>
                     <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">

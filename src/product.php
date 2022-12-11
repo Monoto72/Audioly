@@ -8,7 +8,7 @@
     include_once 'views/components/head.php'; 
     ?>
     <body class="md:overflow-y-hidden overflow-x-hidden h-screen">
-        <navbar>
+        <navbar class="sticky top-0 z-50">
         <?php include_once 'views/components/navbar.php'; ?>
         </navbar>
         <div class="text-center bg-gray-50 text-gray-800 py-4 px-2 h-screen">
@@ -43,7 +43,7 @@
                                 <input type="hidden" id="slug" name="slug" value="'. $item['slug'] .'"/>
                                 <input type="number" name="quantity" id="quantity" class="py-2 px-4 border-2 border-slate-400 rounded-md text-center" value="1">
                                 <br>
-                                <button submit="submit" name="submit" value="checkout" class=" bg-slate-400 text-white font-bold py-2 px-4 rounded">Add to cart</button>
+                                <button submit="submit" name="submit" value="product" class=" bg-slate-400 text-white font-bold py-2 px-4 rounded">Add to cart</button>
                             </form>
                         </div>
                     </div>';

@@ -20,7 +20,7 @@
         <div class="text-md font-bold text-blue-700 lg:flex-grow">
             <div class="dropdown inline-block relative">
                 <button class="hover:text-white hover:bg-blue-700 py-2 px-4 rounded inline-flex items-center">
-                    <span class="mr-1">Store</span>
+                    <span class="mr-1">Categories</span>
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
             </div>
@@ -45,7 +45,7 @@
         </div>
         <!-- This is an example component -->
         <div class="relative mx-auto text-gray-600 lg:block hidden">
-            <form method="post" action="includes/search-inc.php">
+            <form method="post" action="includes/search-inc.php" class="my-auto">
                 <input class="border-2 border-gray-300 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
                     type="search" name="search" placeholder="Search">
                 <button type="submit" class="absolute right-0 top-0 mt-3 mr-2">
@@ -70,7 +70,7 @@
                                 href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>
                         <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                                 href="#">Settings</a></li>
-                        <li class=""><a class="text-black bg-red-500 hover:bg-red-700 py-2 px-4 block whitespace-no-wrap"
+                        <li class=""><a class="rounded-b bg-gray-200 hover:bg-red-500 py-2 px-4 block whitespace-no-wrap"
                                 href="logout.php">Log Out</a></li>
                     </ul>';
                 echo '<script>
@@ -103,6 +103,15 @@
                 echo '<a href="login.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
                         Login
                     </a>';
+            }
+
+            if (isset($_SESSION['cart'])) {
+                if (count($_SESSION['cart']) != 0) {
+                    echo '<a href="cart.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">';
+                        echo '<i class="fa fa-shopping-cart mr-2"></i>';
+                        echo count($_SESSION['cart']);
+                    echo '</a>';
+                }
             }
             ?>
         </div>
