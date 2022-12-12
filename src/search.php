@@ -109,6 +109,7 @@
                 <button class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
             </div>
         </modal>
+        <?php include_once 'views/components/footer.php'; ?>
     </body>
     <script src="views/js/store.js"></script>
 </html>

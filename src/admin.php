@@ -5,6 +5,21 @@
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';
 
+    if (isset($_SESSION['userId'])) {
+        if (isset($_SESSION['adminLevel'])) {
+            if ($_SESSION['adminLevel'] == 0) {
+                header("location: index.php?error=unauthorized");
+                exit();
+            }
+        } else {
+            header("location: index.php");
+            exit();
+        }
+    } else {
+        header("location: index.php");
+        exit();
+    }
+
     if (strpos($_SERVER['REQUEST_URI'], "content") !== false) {
         $url_components = parse_url($_SERVER['REQUEST_URI']);
         parse_str($url_components['query'], $params);

@@ -1,6 +1,6 @@
 <html>
 <?php 
-    $pageTitle = "Auidoly | Home";
+    $pageTitle = "Auidoly | TOS";
 
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';
@@ -272,6 +272,7 @@
             </p>
         </div>
     </div>
+    <?php include_once 'views/components/footer.php'; ?>
 </body>
 
 </html>

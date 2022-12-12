@@ -24,7 +24,7 @@
             echo "<header class='h-1/3 bg-no-repeat bg-center bg-contain bg-gray-700 hidden md:block'
                     style='background-image: url(/media/". $params['category'] .".png)'>
                     <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center'>
-                        <h1 class='text-5xl font-bold text-white font-mono mr-60'>". strtoupper($params['category']) ."</h1>
+                        <h1 class='text-5xl font-bold text-white font-mono'>". strtoupper($params['category']) ."</h1>
                     </div>
                 </header>";
         }
@@ -47,7 +47,7 @@
                         $item = $topFiveItems[$index];
                         if ($item['name'] != "deleted") {
 
-                            echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl'>
+                            echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl mx-auto" ."'>
                                     <img src='". $item['image_url'] ."' class='w-60 h-40 mx-auto'></img>
                                     <h1 class='text-xl font-bold mt-2'>". $item['name'] ."</h1>
                                     <hr class='mb-4'>
@@ -151,6 +151,7 @@
             <button class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
         </div>
     </modal>
+    <?php include_once 'views/components/footer.php'; ?>
 </body>
 <script src="views/js/store.js"></script>
 </html>

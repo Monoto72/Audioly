@@ -96,6 +96,7 @@
                 header("location: cart.php");
             }
         ?>
+        <?php include_once 'views/components/footer.php'; ?>
 </body>
 <script src="views/js/store.js"></script>
 

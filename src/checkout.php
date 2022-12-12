@@ -13,7 +13,7 @@
         <?php include_once 'views/components/navbar.php'; ?>
     </navbar>
     <header class="w-full">
-        <div class="leading-loose flex flex-col justify-center items-center">
+        <div class="leading-loose flex flex-col justify-center items-center mb-6">
             <form method="post" action="" class="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
                 <p class="text-gray-800 font-medium">Customer information</p>
                 <div class="">
@@ -77,6 +77,7 @@
             </form>
         </div>
     </header>
+    <?php include_once 'views/components/footer.php'; ?>
 </body>
 
 </html>

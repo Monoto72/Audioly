@@ -50,5 +50,6 @@
                 }
             ?>
         </div>
+        <?php include_once 'views/components/footer.php'; ?>
     </body>
 </html>

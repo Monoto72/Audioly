@@ -34,14 +34,6 @@
                 <li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                         href="store.php?category=studio">Studio</a></li>
             </ul>
-            <a href="#responsive-header"
-                class=" block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
-                Menu 2
-            </a>
-            <a href="#responsive-header"
-                class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
-                Menu 3
-            </a>
         </div>
         <!-- This is an example component -->
         <div class="relative mx-auto text-gray-600 lg:block hidden">
@@ -60,6 +52,15 @@
         </div>
         <div class="flex">
             <?php
+            if (isset($_SESSION['cart'])) {
+                if (count($_SESSION['cart']) != 0) {
+                    echo '<a href="cart.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">';
+                        echo '<i class="fa fa-shopping-cart mr-2"></i>';
+                        echo count($_SESSION['cart']);
+                    echo '</a>';
+                }
+            }
+
             if (isset($_SESSION['userId'])) {
                 echo '<div class="dropdown-profile inline-block relative">
                     <button class="hover:text-white hover:bg-blue-700 py-2 px-4 rounded inline-flex items-center">
@@ -69,11 +70,15 @@
                         <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                                 href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>
                         <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                href="#">Settings</a></li>
-                        <li class=""><a class="rounded-b bg-gray-200 hover:bg-red-500 py-2 px-4 block whitespace-no-wrap"
+                                href="#">Settings</a></li>';
+                if ($_SESSION['adminLevel'] == 1) {
+                    echo '<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                            href="admin.php">Admin Panel</a></li>';
+                    }
+                echo '<li class=""><a class="rounded-b bg-gray-200 hover:bg-red-500 py-2 px-4 block whitespace-no-wrap"
                                 href="logout.php">Log Out</a></li>
-                    </ul>';
-                echo '<script>
+                    </ul>
+                    <script>
                         const dropdownProfile = document.querySelector(".dropdown-profile");
                         const dropdownProfileMenu = document.querySelector(".dropdown-profile-menu");
                 
@@ -103,15 +108,6 @@
                 echo '<a href="login.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">
                         Login
                     </a>';
-            }
-
-            if (isset($_SESSION['cart'])) {
-                if (count($_SESSION['cart']) != 0) {
-                    echo '<a href="cart.php" class="block mt-4 lg:inline-block lg:mt-0 hover:text-white px-4 py-2 rounded hover:bg-blue-700 mr-2">';
-                        echo '<i class="fa fa-shopping-cart mr-2"></i>';
-                        echo count($_SESSION['cart']);
-                    echo '</a>';
-                }
             }
             ?>
         </div>

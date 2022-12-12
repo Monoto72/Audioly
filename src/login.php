@@ -5,7 +5,7 @@
     require_once 'includes/dbh-inc.php';
     require_once 'includes/functions-inc.php';
 
-    if (isset($_SESSION['user'])) {
+    if (isset($_SESSION['userId'])) {
         header("location: index.php");
         exit();
     }
@@ -13,7 +13,7 @@
     include_once 'views/components/head.php'; 
     ?>
 
-<body class="h-full overflow-x-hidden overflow-y-hidden">
+<body class="h-full overflow-x-hidden overflow-y-auto md:overflow-y-hidden">
     <navbar class="sticky top-0 z-50">
         <?php include_once 'views/components/navbar.php'; ?>
     </navbar>
@@ -66,5 +66,6 @@
 				?>
             </div>
         </div>
+        <?php include_once 'views/components/footer.php'; ?>
 </body>
 </html>
