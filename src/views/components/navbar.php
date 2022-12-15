@@ -68,9 +68,7 @@
                     </div>
                     <ul class="dropdown-profile-menu absolute hidden text-gray-700 pt-2 w-1/2 md:w-1/12 mt-10 right-90 md:right-10">
                         <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>
-                        <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                href="#">Settings</a></li>';
+                                href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>';
                 if ($_SESSION['adminLevel'] == 1) {
                     echo '<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                             href="admin.php">Admin Panel</a></li>';

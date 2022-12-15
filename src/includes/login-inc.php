@@ -15,7 +15,8 @@
             exit();
         } else {
             loginUser($conn, $username, $password);
-            header("location: ../index.php");
+            header("location: ../index.php?success=loginSuccess");
+            exit();
         }
     }
 

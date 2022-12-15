@@ -1,4 +1,4 @@
-<modal>
+<modal class="z-40">
     <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
         <form class="bg-white w-1/3 items-center rounded-lg flex flex-col py-6" method="post" action="includes/signup-inc.php">
             <h1 class="w-2/3 text-gray-800 font-bold text-2xl mb-1 text-center">Create User</h1>

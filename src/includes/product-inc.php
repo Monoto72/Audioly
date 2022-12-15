@@ -18,11 +18,12 @@
                 header("location: ../admin.php?content=products&error=emptyInput");
                 exit();
             } else if (productExistsName($conn, $productName) !== false) {
-                header("location: ../create.php?error=productExists");
+                header("location: ../admin.php?content=products&error=productExists");
                 exit();
             } else {
                 createProduct($conn, $productName, $productDescription, $productPrice, $productType, $productImage);
-                header("location: ../index.php");
+                header("location: ../admin.php?content=products&success=productCreated");
+                exit();
             }
         } else if ($formType === "sub-edit") {
             $productSlug = $_POST['slug'];

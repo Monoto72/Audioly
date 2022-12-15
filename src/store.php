@@ -15,7 +15,7 @@
     }
     ?>
 
-<body class="h-screen overflow-x-hidden overflow-y-auto bg-gray-50">
+<body class="h-screen overflow-x-hidden overflow-y-auto bg-gray-50 mb-10">
     <navbar class="sticky top-0 z-50">
         <?php include_once 'views/components/navbar.php'; ?>
     </navbar>
@@ -41,17 +41,17 @@
                     if (count($topFiveItems) === 0) header("location: index.php");
 
                     echo "<h1 class='text-2xl font-bold mt-0'>Featured Products</h1>";
-                    echo "<main class='flex flex-col md:flex-row md:m-4 space-y-4 md:space-x-4 items-center justify-items-center'>";
+                    echo "<main class='flex flex-col md:flex-row md:m-4 md:space-x-4 items-center justify-items-center'>";
                     
                     for ($index = 0; $index < count($topFiveItems); $index++) {
                         $item = $topFiveItems[$index];
                         if ($item['name'] != "deleted") {
 
-                            echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-" . $cssPadding[$index] . " hover:shadow-xl mx-auto" ."'>
+                            echo "<a href='product.php?category=". $item["type"] ."&item=". $item['slug'] ."' class='h-80 w-3/4 md:w-1/4 rounded-md bg-white md:shadow-md md:p-4 hover:shadow-xl" ."'>
                                     <img src='". $item['image_url'] ."' class='w-60 h-40 mx-auto'></img>
-                                    <h1 class='text-xl font-bold mt-2'>". $item['name'] ."</h1>
-                                    <hr class='mb-4'>
-                                    <h2 class='text-xs font-bold mt-0 pb-4 md:pb-" . $cssBottomPadding[$index] . " my-auto'>£". $item['price'] ."</h2>
+                                    <h1 class='text-xl font-bold mt-2 h-25 text-ellipsis overflow-hidden'>". $item['name'] ."</h1>
+                                    <hr class='mb-4 mt-2'>
+                                    <h2 class='inset-x-0 bottom-0 text-xs font-bold mt-0 pb-4 md:pb-4 my-auto'>£". $item['price'] ."</h2>
                                 </a>";
                         }
                     }
@@ -151,7 +151,7 @@
             <button class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
         </div>
     </modal>
-    <?php include_once 'views/components/footer.php'; ?>
 </body>
+<?php include_once 'views/components/footer.php'; ?>
 <script src="views/js/store.js"></script>
 </html>

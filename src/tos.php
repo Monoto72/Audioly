@@ -12,7 +12,7 @@
     <navbar class="sticky top-0 z-50">
         <?php include_once 'views/components/navbar.php'; ?>
     </navbar>
-    <div class="w-2/3 flex flex-col mx-auto mt-4">
+    <div class="w-2/3 flex flex-col mx-auto mt-4 mb-20">
         <div class="mb-4 flex flex-col space-y-2">
             <h3 class="font-bold mb-2">1. AGREEMENT TO TERMS</h3>
             <p>

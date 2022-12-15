@@ -31,6 +31,9 @@
                             header("location: index.php?error=incomplete");
                         }
                         break;
+                    case "account details":
+                        include_once 'views/components/profile/account-details.php';
+                        break;
                     default:
                         header("location: index.php?error=unauthorized");
                         exit();
@@ -57,15 +60,15 @@
                         </a>';
                     }
                 ?>
-                <a class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">
-                    Edit Account Details
+                <a href="profile.php?id=<?php echo $_SESSION['userId'] ?>&action=update password" class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">
+                    Update Password
                 </a>                
                 <a class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">
                     Add Payment Option
                 </a>
             </div>
             <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 w-full md:w-3/6 h-1/6 mx-auto font-bold">
-                <a class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">
+                <a href="orders.php?id=<?php echo $_SESSION['userId'] ?>" class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">
                     Show Orders
                 </a>
                 <a class="cursor-pointer w-full md:w-1/3 bg-white h-1/2 shadow-lg rounded-md hover:shadow-xl flex items-center justify-center">

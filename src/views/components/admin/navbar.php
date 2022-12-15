@@ -1,8 +1,8 @@
-<aside class="w-64 h-screen -50" aria-label="Sidebar">
-   <div class="overflow-y-auto py-4 px-3 -50 rounded">
+<aside class="w-64 h-screen bg-gray-50 shadow-inner" aria-label="Sidebar">
+   <div class="overflow-y-auto py-4 px-3 rounded">
       <ul class="space-y-2">
          <li>
-            <a href="index.php"><span class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">Audioly Dashboard</span></a>
+            <a href="admin.php"><span class="flex items-center p-2 text-base font-bold text-gray-900 rounded-lg hover:bg-gray-100">Audioly Dashboard</span></a>
          </li>
          <li>
             <a href="admin.php?content=users" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">

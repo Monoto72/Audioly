@@ -234,10 +234,6 @@ function loginUser($conn, $email, $password) {
             $_SESSION['billingAddress']['postCode'] = $userData['post_code'];
             $_SESSION['billingAddress']['country'] = $userData['country'];
         }
-
-        header("location: ../index.php");
-
-        exit();
     }
 }
 
@@ -324,6 +320,30 @@ function getProduct($conn, $slug) {
     }
 
     mysqli_stmt_bind_param($stmt, "s", $slug);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+function getProductFromId($conn, $id) {
+    $sql = "SELECT * FROM store_items WHERE id = ?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
@@ -490,8 +510,6 @@ function createProduct($conn, $name, $description, $price, $type, $imageUrl) {
     mysqli_stmt_bind_param($stmt, "ssssss", $name, $slug, $description, $price, $type, $imageUrl);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../index.php?error=none");
-    exit();
 }
 
 function createSlugFromName($name) {
@@ -512,7 +530,6 @@ function removeProduct($conn, $productSlug) {
     mysqli_stmt_bind_param($stmt, "s", $productSlug);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    exit();
 }
 
 function getUserCart($conn) {
@@ -698,6 +715,172 @@ function emptyInputProduct($productSlug) {
     return $result;
 }
 
+// add orders to database with each item as JSON
+function addOrder($conn, $order, $orderTotal, $paymentType) {
+    $sql = "INSERT INTO orders (user_id, order_items, order_total, payment_type) VALUES (?, ?, ?, ?);";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    $orderItems = json_encode($order);
+
+    mysqli_stmt_bind_param($stmt, "isis", $_SESSION['userId'], $orderItems, $orderTotal, $paymentType);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    $sql2 = "DELETE FROM cart WHERE user_id = ?;";
+    $stmt2 = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt2, $sql2)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt2, "i", $_SESSION['userId']);
+    mysqli_stmt_execute($stmt2);
+    mysqli_stmt_close($stmt2);
+
+    $_SESSION['cart'] = array();
+}
+
+function emptyPaymentType($cardNumber, $cardName, $cardExpiry, $cardCvv) {
+    $result = false;
+
+    if (empty($cardNumber) || empty($cardName) || empty($cardExpiry) || empty($cardCvv)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function getLastFiveOrderItems($conn, $admin) {
+    $sql = "";
+
+    if (!$admin) {
+        $sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC LIMIT 5;";
+    } else {
+        $sql = "SELECT * FROM orders ORDER BY order_date DESC LIMIT 5;";
+    }
+
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    if (!$admin) {
+        mysqli_stmt_bind_param($stmt, "i", $_SESSION['userId']);
+    }
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        array_push($entries, 
+            array(
+                "order_items" => json_decode($row['order_items'], true),
+                "order_total" => $row['order_total'],
+                "payment_type" => $row['payment_type'],
+                "order_date" => $row['order_date'],
+                "user_id" => $row['user_id']
+            )
+        );
+    }
+
+    return $entries;
+}
+
+function getTotalProfit($conn) {
+    $sql = "SELECT SUM(order_total) AS total FROM orders;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        $entries[] = $row;
+    }
+
+    return $entries;
+
+}
+
+function getTotalOrders($conn) {
+    $sql = "SELECT COUNT(*) AS total FROM orders;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        $entries[] = $row;
+    }
+
+    return $entries;
+}
+
+function getTotalUsers($conn) {
+    $sql = "SELECT COUNT(*) AS total FROM users;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    $entries = array();
+
+    while ($row = mysqli_fetch_assoc($resultData)) {
+        $entries[] = $row;
+    }
+
+    return $entries;
+}
+
+function updatePassword($conn, $password) {
+    $sql = "UPDATE users SET password = ? WHERE id = ?;";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=statementFailed");
+        exit();
+    }
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $_SESSION['userId']);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
 /**
  * Log out the user
  */
@@ -707,7 +890,7 @@ function logout() {
     session_unset();
     session_destroy();
 
-    header("location: index.php");
+    header("location: index.php?success=logoutSuccess");
     exit();
 }
 

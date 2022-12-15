@@ -21,8 +21,7 @@ if (isset($_POST['submit'])) {
     require_once 'functions-inc.php';
 
     if (emptyInputSignup($fullName, $username, $email, $password, $verifyPassword) !== false) {
-        echo "empty input";
-        //header("location: ../signup.php?error=emptyInput");
+        header("location: ../signup.php?error=emptyInput");
         exit();
     } else if (invalidEmail($email) !== false) {
         header("location: ../signup.php?error=invalidEmail");
@@ -36,10 +35,10 @@ if (isset($_POST['submit'])) {
     } else {
         if ($madeOnPanel) {
             createUser($conn, $fullName, $username, $email, $password, $adminLevel, true);
-            header("location: ../admin.php?content=users&success=userCreated");
+            header("location: ../admin.php?content=users&success=signupSuccess");
         } else {
             createUser($conn, $fullName, $username, $email, $password);
-            header("location: ../index.php");
+            header("location: ../index.php?success=accountCreated");
         }
         exit();
     }

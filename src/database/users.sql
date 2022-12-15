@@ -27,5 +27,5 @@ ALTER TABLE users ADD country VARCHAR(50);
     * 
 ****************************************************************/
 
-INSERT INTO users (full_name, username, email, password admin_level)
-VALUES ('Admin Account', 'admin', 'admin@audioly.com', 'admin', 1);
+INSERT INTO users (`full_name`, `username`, `email`, `password`, `admin_level`) 
+VALUES ('Admin Account', 'Admin', 'admin@audioly.com', '$2y$10$4Xv1HD3ki.e7PMPAli18Uun6sg4eP.sYINK5QqeeB25yNDl0Co7aS', 1)
