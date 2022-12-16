@@ -17,7 +17,7 @@
         <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center'>
             <h1 class='text-5xl font-bold text-white font-mono'>Audioly</h1>
         </div>
-    </header>;
+    </header>
     <div class="text-center flex flex-row text-gray-800 py-4 px-2">
         <div class="w-full md:w-1/3 mx-auto border-l-2 border-r-2 border-gray-500 px-8">
             <p>
@@ -62,7 +62,7 @@
                         $message = "Logout successful";
                         include_once 'views/components/toast.php';
                         break;
-                    case "signupSuccess":
+                    case "accountCreated":
                         $toast = "success";
                         $message = "Signup successful";
                         include_once 'views/components/toast.php';

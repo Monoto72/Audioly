@@ -127,16 +127,12 @@ function createUser($conn, $fullName, $username, $email, $password, $adminLevel 
         $userData = getUserByEmail($conn, $email);
 
         $_SESSION["loggedIn"] = true;
-        $_SESSION['fullName'] = $userData['first_name'] . " " . $userData['second_name'];
+        $_SESSION['fullName'] = $userData['full_name'];
+        $_SESSION['username'] = $userData['username'];
         $_SESSION['userId'] = $userData['id'];
-        $_SESSION['email'] = $userData['first_name'];
-        $_SESSION['password'] = $userData['second_name'];
+        $_SESSION['email'] = $userData['email'];
         $_SESSION['adminLevel'] = $userData['admin_level'];
-
-        header("location: ../index.php");
     }
-
-    exit();
 }
 
 /**

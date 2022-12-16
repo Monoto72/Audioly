@@ -31,8 +31,8 @@
                             header("location: index.php?error=incomplete");
                         }
                         break;
-                    case "account details":
-                        include_once 'views/components/profile/account-details.php';
+                    case "update password":
+                        include_once 'views/components/profile/update-password.php';
                         break;
                     default:
                         header("location: index.php?error=unauthorized");

@@ -50,7 +50,7 @@
                 </button>
             </form>
         </div>
-        <div class="flex">
+        <div class="flex flex-col md:flex-row">
             <?php
             if (isset($_SESSION['cart'])) {
                 if (count($_SESSION['cart']) != 0) {
@@ -62,15 +62,15 @@
             }
 
             if (isset($_SESSION['userId'])) {
-                echo '<div class="dropdown-profile inline-block relative">
+                echo '<div class="dropdown-profile inline-block">
                     <button class="hover:text-white hover:bg-blue-700 py-2 px-4 rounded inline-flex items-center">
                         <span class="mr-1">'. $_SESSION['username'] .'</span>
                     </div>
-                    <ul class="dropdown-profile-menu absolute hidden text-gray-700 pt-2 w-1/2 md:w-1/12 mt-10 right-90 md:right-10">
+                    <ul class="dropdown-profile-menu absolute hidden text-gray-700 pt-2 w-1/2 md:w-1/12 mt-24 md:mt-10 right-90 md:right-10">
                         <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
                                 href="profile.php?id='. $_SESSION['userId'] .'">View Profile</a></li>';
                 if ($_SESSION['adminLevel'] == 1) {
-                    echo '<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                    echo '<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap hidden md:block"
                             href="admin.php">Admin Panel</a></li>';
                     }
                 echo '<li class=""><a class="rounded-b bg-gray-200 hover:bg-red-500 py-2 px-4 block whitespace-no-wrap"

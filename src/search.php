@@ -52,7 +52,7 @@
 
                             if (count($paginatedItems) === 0) header("location: index.php");
 
-                            for ($index = 0; $index < count($paginatedItems); $index++) {
+                            for ($index = 0; $index < 5; $index++) {
                                 $item = $paginatedItems[$index];
                                 if ($item['name'] != "deleted") {
                                     echo "<tr class='border-b border-gray-200 dark:border-gray-700 text-center'>
@@ -84,7 +84,7 @@
             <?php
                 echo "<div class='flex justify-center space-x-4 mt-4'>";
                 if ($params['page'] > 1) echo "<a href='search.php?search=". $params['search'] ."&page=". $params['page'] - 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Back</a>";
-                if (count($paginatedItems) === 5) echo "<a href='search.php?search=". $params['search'] ."&page=". $params['page'] + 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Next</a>";
+                if (count($paginatedItems) > 4) echo "<a href='search.php?search=". $params['search'] ."&page=". $params['page'] + 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Next</a>";
                 echo "</div>";
             ?>
         </div>
