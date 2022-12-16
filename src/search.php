@@ -83,8 +83,11 @@
             </div>
             <?php
                 echo "<div class='flex justify-center space-x-4 mt-4'>";
-                if ($params['page'] > 1) echo "<a href='search.php?search=". $params['search'] ."&page=". $params['page'] - 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Back</a>";
-                if (count($paginatedItems) > 4) echo "<a href='search.php?search=". $params['search'] ."&page=". $params['page'] + 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Next</a>";
+                $nextPageURL = "search.php?search=". $params['search'] ."&page=". ($params['page'] + 1);
+                $backPageURL = "search.php?search=". $params['search'] ."&page=". ($params['page'] - 1);
+
+                if ($params['page'] > 1) echo "<a href='". $backPageURL ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Back</a>";
+                if (count($paginatedItems) > 4) echo "<a href='". $nextPageURL ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Next</a>";
                 echo "</div>";
             ?>
         </div>

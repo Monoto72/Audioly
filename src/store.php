@@ -30,7 +30,7 @@
         }
     ?>
     <div class="text-center text-gray-800 py-4 px-2">
-            <?php
+        <?php
                 if ($params['category'] && count($params) === 1) {
 
                     $cssPadding = array(2, 4, 6, 4, 2);
@@ -124,34 +124,46 @@
                     echo "</div>";
 
                     echo "<div class='flex justify-center space-x-4 mt-4'>";
-                    if ($params['page'] > 1) echo "<a href='store.php?category=". $params['category'] ."&all=true&page=". $params['page'] - 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Back</a>";
-                    if (count($paginatedItems) === 5) echo "<a href='store.php?category=". $params['category'] ."&all=true&page=". $params['page'] + 1 ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Next</a>";
+                    $nextPageURL = "store.php?category=". $params['category'] ."&all=true&page=". ($params['page'] + 1);
+                    $backPageURL = "store.php?category=". $params['category'] ."&all=true&page=". ($params['page'] - 1);
+
+                    if ($params['page'] > 1) echo "<a href='". $backPageURL ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Back</a>";
+                    if (count($paginatedItems) === 5) echo "<a href='". $nextPageURL ."' class='bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:bg-gray-700 inline-block align-middle cursor-pointer'>Next</a>";
                     echo "</div>";
                 }
             ?>
 
-    <modal class="imageOverlay hidden">
-        <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
-            <img src='' class='w-1/3 h-1/2 mx-auto rounded-lg'></img>
-            <button class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Hide Image</button>
-        </div>
-    </modal>
-
-    <modal class="checkout hidden">
-        <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
-            <div class="bg-white w-1/4 items-center rounded-lg flex flex-col py-4 px-4">
-                <h1 class="w-full text-gray-800 font-bold text-2xl mb-1 text-center">Purchase Product</h1>
-                <form action="includes/basket-inc.php" method="post" class="w-1/2 h-full">
-                    <input type="hidden" id="slug" name="slug" value=""/>
-                    <input type="number" name="quantity" id="quantity" class="py-2 my-2 border-2 border-slate-400 rounded-md text-center w-full" value="1"/>
-                    <button submit="submit" name="submit" value="continue" class='w-full mb-2 bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Add to cart</button>
-                    <button submit="submit" name="submit" value="checkout" class='w-full bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Continue to checkout</button>
-                </form>
+        <modal class="imageOverlay hidden">
+            <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
+                <img src='' class='w-1/3 h-1/2 mx-auto rounded-lg'></img>
+                <button
+                    class='bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Hide
+                    Image</button>
             </div>
-            <button class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
-        </div>
-    </modal>
+        </modal>
+
+        <modal class="checkout hidden">
+            <div class='h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center fixed top-0'>
+                <div class="bg-white w-1/4 items-center rounded-lg flex flex-col py-4 px-4">
+                    <h1 class="w-full text-gray-800 font-bold text-2xl mb-1 text-center">Purchase Product</h1>
+                    <form action="includes/basket-inc.php" method="post" class="w-1/2 h-full">
+                        <input type="hidden" id="slug" name="slug" value="" />
+                        <input type="number" name="quantity" id="quantity"
+                            class="py-2 my-2 border-2 border-slate-400 rounded-md text-center w-full" value="1" />
+                        <button submit="submit" name="submit" value="continue"
+                            class='w-full mb-2 bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Add
+                            to cart</button>
+                        <button submit="submit" name="submit" value="checkout"
+                            class='w-full bg-gray-800 text-white font-bold py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Continue
+                            to checkout</button>
+                    </form>
+                </div>
+                <button
+                    class='checkout-close bg-gray-800 text-white font-bold mt-2 py-2 px-4 rounded-full hover:-700 inline-block align-middle cursor-pointer'>Close</button>
+            </div>
+        </modal>
 </body>
 <?php include_once 'views/components/footer.php'; ?>
 <script src="views/js/store.js"></script>
+
 </html>

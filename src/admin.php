@@ -142,6 +142,9 @@
                                                     }
                                                     
                                                     for ($index = 0; $index < 5; $index++) {
+                                                        if(!isset($orders[$index])) {
+                                                            break;
+                                                        }
                                                         $item = $orders[$index]['product'];
                                                         $itemAmount = $orders[$index]['quantity'];
                                                         $purchaseDate = $orders[$index]['date'];
